@@ -28,7 +28,7 @@ class Program
     }
     static void Main(string[] args)
     {
-         var graph = new Dictionary<int, List<int>> // Пример графа в виде словаря смежности
+         var graph = new Dictionary<int, List<int>> // Пример графа в виде списка смежности
         {
             { 1, new List<int> { 2, 3 } },
             { 2, new List<int> { 4 } },
