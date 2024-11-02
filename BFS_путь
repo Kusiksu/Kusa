@@ -10,7 +10,7 @@ class Program
         Queue<int> queue = new Queue<int>();
         queue.Enqueue(start);
 
-        // Список для хранения посещённых вершин и предыдущей вершины в пути
+        // Словарь для хранения посещённых вершин и предыдущей вершины в пути
         Dictionary<int, int?> parent = new Dictionary<int, int?>();
 
         // Добавляем стартовую вершину в словарь родительских узлов
