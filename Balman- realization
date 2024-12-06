@@ -1,0 +1,98 @@
+using System;
+using System.Collections.Generic;
+
+class Edge
+{
+    public string From { get; set; }
+    public string To { get; set; }
+    public int Weight { get; set; }
+
+    public Edge(string from, string to, int weight)
+    {
+        From = from;
+        To = to;
+        Weight = weight;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Определение графа
+        var edges = new List<Edge>
+        {
+            new Edge("S", "A", 3),
+            new Edge("S", "B", 6),
+            new Edge("A", "B", 5),
+            new Edge("B", "C", 2),
+            new Edge("C", "A", -10)
+        };
+
+        var vertices = new List<string> { "S", "A", "B", "C" };
+
+        // Таблица расстояний и предшественников
+        var distances = new Dictionary<string, int>();
+        var predecessors = new Dictionary<string, string>();
+
+        // Инициализация
+        foreach (var vertex in vertices)
+        {
+            distances[vertex] = int.MaxValue; // Бесконечность
+            predecessors[vertex] = null;
+        }
+        distances["S"] = 0; // Расстояние от стартовой вершины до себя = 0
+
+        Console.WriteLine("Изначальные расстояния:");
+        PrintDistances(distances, predecessors);
+
+        // Алгоритм Беллмана-Форда
+        bool hasChanged = false;
+        for (int i = 0; i < vertices.Count - 1; i++)
+        {
+            hasChanged = false;
+            Console.WriteLine($"\nИтерация {i + 1}:");
+            foreach (var edge in edges)
+            {
+                if (distances[edge.From] != int.MaxValue &&
+                    distances[edge.From] + edge.Weight < distances[edge.To])
+                {
+                    distances[edge.To] = distances[edge.From] + edge.Weight;
+                    predecessors[edge.To] = edge.From;
+                    hasChanged = true;
+                }
+            }
+            PrintDistances(distances, predecessors);
+
+            if (!hasChanged)
+            {
+                Console.WriteLine("Изменений больше нет, остановка.");
+                break;
+            }
+        }
+
+        // Проверка на отрицательные циклы
+        Console.WriteLine("\nПроверка на отрицательные циклы:");
+        foreach (var edge in edges)
+        {
+            if (distances[edge.From] != int.MaxValue &&
+                distances[edge.From] + edge.Weight < distances[edge.To])
+            {
+                Console.WriteLine("Обнаружен отрицательный цикл!");
+                return;
+            }
+        }
+        Console.WriteLine("Отрицательные циклы не обнаружены.");
+    }
+
+    static void PrintDistances(Dictionary<string, int> distances, Dictionary<string, string> predecessors)
+    {
+        Console.WriteLine("Вершина\tРасстояние\tПредшественник");
+        foreach (var vertex in distances.Keys)
+        {
+            var distance = distances[vertex] == int.MaxValue ? "∞" : distances[vertex].ToString();
+            var predecessor = predecessors[vertex] ?? "-";
+            Console.WriteLine($"{vertex}\t{distance}\t\t{predecessor}");
+        }
+    }
+}
