@@ -1,0 +1,67 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+import time
+
+plt.ion()
+
+G = nx.DiGraph()
+edges = [
+    ("S", "A", 2),
+    ("S", "B", 4),
+    ("A", "B", 1),
+    ("A", "C", 7),
+    ("B", "C", 3)
+]
+G.add_weighted_edges_from(edges)
+
+dist = {v: float('inf') for v in G.nodes}
+pred = {v: None for v in G.nodes}
+dist["S"] = 0
+
+queue = ["S"]
+processed = set()
+
+pos = nx.spring_layout(G, seed=42)
+
+def draw_graph(current=None):
+    plt.clf()
+    colors = []
+    for node in G.nodes:
+        if node == current:
+            colors.append("orange")
+        elif node in processed:
+            colors.append("lightgreen")
+        elif node in queue:
+            colors.append("skyblue")
+        else:
+            colors.append("lightgray")
+
+    labels = {n: f"{n}\n{dist[n] if dist[n] < float('inf') else '∞'}" for n in G.nodes}
+    edge_labels = nx.get_edge_attributes(G, 'weight')
+    nx.draw(G, pos, with_labels=True, node_color=colors, labels=labels, node_size=1500, font_size=12)
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+    plt.title(f"Обработка вершины: {current}")
+    plt.pause(1)
+
+while queue:
+    u = queue.pop(0)
+    draw_graph(current=u)
+    for v in G.successors(u):
+        weight = G[u][v]["weight"]
+        if dist[v] > dist[u] + weight:
+            dist[v] = dist[u] + weight
+            pred[v] = u
+            if v in processed:
+                processed.remove(v)
+                queue.insert(0, v)
+            elif v not in queue:
+                queue.append(v)
+    processed.add(u)
+
+draw_graph()
+plt.ioff()
+plt.show()
+
+print("\nИтоговые расстояния:")
+for node in G.nodes:
+    print(f"{node}: расстояние = {dist[node]}, предшественник = {pred[node]}")
