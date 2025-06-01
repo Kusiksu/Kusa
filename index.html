@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Задания и Анкета</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>JS Задания</h1>
+
+  <!-- Задание 1 -->
+  <section class="task">
+    <h2>1. Наибольшее из двух чисел</h2>
+    <input type="number" id="num1" placeholder="Число 1">
+    <input type="number" id="num2" placeholder="Число 2">
+    <button onclick="findMax()">Показать большее</button>
+    <p class="output" id="maxResult"></p>
+  </section>
+
+  <!-- Задание 2 -->
+  <section class="task">
+    <h2>2. Массив от 0 до числа</h2>
+    <input type="number" id="rangeInput" placeholder="Введите число">
+    <button onclick="generateRange()">Создать массив</button>
+    <p class="output" id="rangeResult"></p>
+  </section>
+
+  <!-- Задание 3 -->
+  <section class="task">
+    <h2>3. Четные числа из массива</h2>
+    <input type="text" id="arrayInput" placeholder="Введите числа через запятую">
+    <button onclick="filterEvenNumbers()">Вывести чётные</button>
+    <p class="output" id="evenResult"></p>
+  </section>
+
+  <hr>
+  <h1>Анкета</h1>
+
+  <form id="userForm" novalidate>
+    <div class="form-group">
+      <label for="lastName">Фамилия:</label>
+      <input type="text" name="lastName" id="lastName" required>
+      <span class="error"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">Имя:</label>
+      <input type="text" name="firstName" id="firstName" required>
+      <span class="error"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="gender">Пол:</label>
+      <select name="gender" id="gender" required>
+        <option value="">Выберите пол</option>
+        <option value="Мужской">Мужской</option>
+        <option value="Женский">Женский</option>
+      </select>
+      <span class="error"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Номер телефона:</label>
+      <input type="tel" name="phone" id="phone" required pattern="^\+?\d{10,15}$" placeholder="+79998992772">
+      <span class="error"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" required>
+      <span class="error"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="position">Должность:</label>
+      <select name="position" id="position" required>
+        <option value="">Выберите должность</option>
+        <option value="Разработчик">Разработчик</option>
+        <option value="Аналитик">Аналитик</option>
+        <option value="Дизайнер">Дизайнер</option>
+        <option value="Тестировщик">Тестировщик</option>
+      </select>
+      <span class="error"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="duties">Трудовые обязанности:</label>
+      <textarea name="duties" id="duties" required></textarea>
+      <span class="error"></span>
+    </div>
+
+    <button type="submit">Сохранить</button>
+    <button type="reset">Сбросить</button>
+    <button type="button" id="loadData">Выгрузить данные</button>
+  </form>
+
+  <script src="script.js"></script>
+</body>
+</html>
